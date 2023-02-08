@@ -1,5 +1,3 @@
-Test Readme
-
 Abstract:
 Implementing a write-once filesystem that exists entirely inside one 4MB file in the native operating system. On mount, the library opens the file that holds the 'disk' and reads all 4MB of it into memory. For the lifetime of the Process that mounts the filesystem, all reads and writes are served using the image in memory. When the filesystem is unmounted, the library will write out the entire 4MB image of modified 'disk' to same file it came from, overwriting the old information and preserving any changes made.
 
