@@ -1,1 +1,45 @@
 Test Readme
+
+Abstract:
+Implementing a write-once filesystem that exists entirely inside one 4MB file in the native operating system. On mount, the library opens the file that holds the 'disk' and reads all 4MB of it into memory. For the lifetime of the Process that mounts the filesystem, all reads and writes are served using the image in memory. When the filesystem is unmounted, the library will write out the entire 4MB image of modified 'disk' to same file it came from, overwriting the old information and preserving any changes made.
+
+
+1. Int wo_mount (char *diskname, void *memory_address)
+• Mounts the file system from the disk.
+• Opens the file for reading and returns error no (file access error) if fp is NULL.
+• Read the entire file system into memory
+• Set up pointers to the different memory regions
+ 
+2. Int wo_unmount (void *memory_address)
+
+3. Int wo_open(char *filename, int flags)
+• Opens the file and finds the first empty slot in the file descriptor table.
+
+4. Int wo_create(char *filename, int flags)
+
+5. Int wo_read (int fd, void *buffer, int bytes)
+• Open the disk for writing and returns error no (file access error) if fp is NULL.
+• Writes the entire filesystem from memory to the disk.
+• When creating a file, checks if file is already present in the system.
+• If so, returns error no.
+• Opens the file and finds the first empty slot in the file descriptor table, similar to
+
+wo_open() function.
+• Checks if the file descriptor is valid, else returns error.
+• Checks if the file is open in read mode, else returns error. This is done by checking if it is in write only (WRONLY) mode as the other two modes have read access.
+• Calculates the number of blocks to read
+• Checks if the file has enough data
+• Read the data
+
+6. Int wo_write (int fd, void *buffer, int bytes)
+
+7. Int wo_close (int fd)
+• Checks if the file descriptor is valid, else returns error.
+• Checks if the file is open in write mode, else returns error.
+• Calculates the number of blocks to write.
+• Checks if there is enough free space to write the data, if not, throws error.
+• Finds first available block and writes the data.
+• Updates the file size and the block count.
+• Checks if the file descriptor is valid
+• Throws error if it is invalid
+• Closes the file.
